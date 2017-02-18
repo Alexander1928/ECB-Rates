@@ -42,7 +42,7 @@
                         <label>У меня есть </label>
                         <input type="text" class="form-control" id="haveCurrencyAmount">
                     </div>
-                    <select class="form-control" id="needCurrencyName">
+                    <select class="form-control" id="haveCurrencyName">
                         <option value="EUR">EUR</option>
                         <?php
                         foreach ($xml->Cube->Cube->Cube as $pair) :
@@ -65,14 +65,25 @@
                     </div>
 
                     <div class="form-group">
-                        <button type="button" class="btn btn-success">Done</button>
+                        <button type="button" class="btn btn-success" id="calculateBtn">Done</button>
                     </div>
                     <div class="form-group">
                         <label>Вы получите:</label>
-                        <input type="text" class="form-control" id="needCurrencyAmount" readonly>
+                        <input type="text" class="form-control" id="needCurrencyText" readonly>
                     </div>
                 </form>
             </div>
         </div>  
+        <script>
+            var rates = {};
+            rates['EUR'] = 1;
+            <?php
+                foreach ($xml->Cube->Cube->Cube as $pair) :
+                    $attr = $pair->attributes();
+            ?>
+                rates['<?= $attr[0]; ?>'] = <?= $attr[1]; ?>;
+                <?php endforeach; ?>
+        </script>
+        <script src="js/calculator.js"></script>
     </body>
 </html>
